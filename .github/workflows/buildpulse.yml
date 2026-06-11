@@ -22,12 +22,9 @@ steps:
 - name: Run Unit Tests
   run: mvn clean test
 
-- name: Upload Results to BuildPulse
-  if: '!cancelled()'
-  uses: buildpulse/buildpulse-action@main
+- name: Upload test results to BuildPulse
+  if: always()
+  uses: BuildPulseLLC/test-reporter-action@v3
   with:
-    account: 12345
-    repository: 67890
+    api-token: ${{ secrets.BUILDPULSE_API_TOKEN }}
     path: target/surefire-reports/*.xml
-    key: ${{ secrets.BUILDPULSE_ACCESS_KEY_ID }}
-    secret: ${{ secrets.BUILDPULSE_SECRET_ACCESS_KEY }}
